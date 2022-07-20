@@ -7,10 +7,29 @@
 
     <script src="./vue.js"></script>
 
+    <style>
+        .vermelho{
+            color: red;
+        }
+
+        .negrito{
+            font-weight: bold;
+        }
+
+        .azul{
+            background-color: blue;
+        }
+
+        .verde{
+            background-color: green;
+        }
+    </style>
+
     <title>Document</title>
 </head>
 <body>
-    Teste oi
+    <h2>Data</h2>
+    <br/><hr/><br/>
 
     <div id="data">
         Mensagem: {{mensagem}}<br/>
@@ -31,6 +50,9 @@
         Carga Horária Curso 2 Perfil: {{perfil.cursos[1].cargaHoraria}}<br/>
     </div>
 
+    <h2>Methods</h2>
+    <br/><hr/><br/>
+
     <div id="methods">
         Somar: {{somar()}}<br/>
         Subtrair: {{subtrair()}}<br/>
@@ -38,8 +60,32 @@
         Dividir: {{dividir()}}<br/>
     </div>
 
+    <h2>V-Bind</h2>
+    <br/><hr/><br/>
+
+    <div id="bind">
+        <p :class="cor" class="negrito">Entendendo a diretiva V-Bind</p><br/>
+        <a :href="site">Site</a><br/>
+        <input type="text" :placeholder="placeholder" :value="valor"><br/>
+        <input type="checkbox" :checked="check"><br/><br/>
+
+        {{mensagem}}<br/>
+        {{mensagem.length}}<br/>
+        {{mensagem.substr(0, 3)}}<br/>
+        {{2 + 2}}<br/>
+        <input type="text" :value="2 + 2" :class="false ? 'verde' : estilo"><br/>
+    </div>
+
+    <h2>V-On</h2>
+    <br/><hr/><br/>
+
+    <div id="on">
+        <input type="text" @keyup="imprimirTexto('Enviando Parâmetro', 5)"><br/>
+        <button type="button" @click="mensagemAlerta($event)">Botão</button><br/>
+    </div>
+
     <script>
-        //vm = ViewModel
+        // Data
         const vm = new Vue({
             el: '#data',
             data: { // Variáveis/Atributos Reativos
@@ -69,6 +115,7 @@
             }
         }); 
 
+        // Methods
         const vm2 = new Vue({
             el: '#methods',
             data: {
@@ -87,6 +134,41 @@
                 },
                 dividir(){ // Notação mais enxuta
                     return this.n1 / this.n2;
+                }
+            }
+        });
+
+        // V-Bind
+        const vm3 = new Vue({
+            el: '#bind',
+            data: {
+                site: 'https://denis.com.br',
+                cor: 'vermelho',
+                placeholder: 'Diretiva V-Bind',
+                valor: 'Curso Laravel',
+                check: true,
+
+                mensagem: 'Expressão',
+                estilo: 'azul',
+                teste: true
+
+            }
+        });
+
+        // V-On
+        const vm4 = new Vue({
+            el: '#on',
+            data: {
+                xyz: true
+            },
+            methods: {
+                imprimirTexto(t, n){
+                    console.log(t);
+                    console.log(n);
+                    console.log(this.xyz);
+                },
+                mensagemAlerta(e){
+                    console.log(e);
                 }
             }
         });
