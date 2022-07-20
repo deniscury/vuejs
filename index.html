@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="./vue.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    Teste oi
+
+    <div id="data">
+        Mensagem: {{mensagem}}<br/>
+        Valor Total: {{valorTotal}}<br/>
+        Logado: {{logado}}<br/>
+        Hobbies: {{hobbies}}<br/>
+        Hobbie 1: {{hobbies[0]}}<br/>
+        Hobbie 2: {{hobbies[1]}}<br/>
+        Hobbie 3: {{hobbies[2]}}<br/>
+        Perfil: {{perfil}}<br/>
+        Nome Perfil: {{perfil.nome}}<br/>
+        Site Perfil: {{perfil.site}}<br/>
+        Idade Perfil: {{perfil.idade}}<br/>
+        Cursos Perfil: {{perfil.cursos}}<br/>
+        Nome Curso 1 Perfil: {{perfil.cursos[0].nome}}<br/>
+        Carga Horária Curso 1 Perfil: {{perfil.cursos[0].cargaHoraria}}<br/>
+        Nome Curso 2 Perfil: {{perfil.cursos[1].nome}}<br/>
+        Carga Horária Curso 2 Perfil: {{perfil.cursos[1].cargaHoraria}}<br/>
+    </div>
+
+    <div id="methods">
+        Somar: {{somar()}}<br/>
+        Subtrair: {{subtrair()}}<br/>
+        Multiplicar: {{multiplicar()}}<br/>
+        Dividir: {{dividir()}}<br/>
+    </div>
+
+    <script>
+        //vm = ViewModel
+        const vm = new Vue({
+            el: '#data',
+            data: { // Variáveis/Atributos Reativos
+                mensagem: 'Primeiro template copntrolado pelo Vue', // string
+                valorTotal: 150.47, // numeric
+                logado: false, // booleano
+                hobbies: [
+                    'Dormir',
+                    'Jogar Video Game',
+                    'Academia'
+                ], // array
+                perfil: {
+                    nome: 'Denis Cury',
+                    site: 'denis.org',
+                    idade: 27,
+                    cursos: [
+                        {
+                            nome: 'Laravel', 
+                            cargaHoraria: '50 hrs'
+                        },
+                        {
+                            nome: 'Banco de Dados Relacionais', 
+                            cargaHoraria: '40 hrs'
+                        }
+                    ]
+                } // objeto
+            }
+        }); 
+
+        const vm2 = new Vue({
+            el: '#methods',
+            data: {
+                n1: 10,
+                n2: 5
+            },
+            methods: {
+                somar: function somar(){ // Notação Convencional
+                    return this.n1 + this.n2;
+                },
+                subtrair: function(){ // Notação Anônima
+                    return this.n1 - this.n2;
+                },
+                multiplicar: () => { // Arrow Function
+                    return 10 * 5; 
+                },
+                dividir(){ // Notação mais enxuta
+                    return this.n1 / this.n2;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
