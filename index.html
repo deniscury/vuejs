@@ -8,12 +8,12 @@
     <script src="./vue.js"></script>
 
     <style>
-        .vermelho{
-            color: red;
-        }
-
         .negrito{
             font-weight: bold;
+        }
+
+        .vermelho{
+            color: red;
         }
 
         .azul{
@@ -22,6 +22,25 @@
 
         .verde{
             background-color: green;
+        }
+
+        .branco{
+            background-color: white;
+        }       
+
+        .borda{
+            border: 1px solid;
+        }
+
+        .div-principal{
+            width: 200px;
+            height: 200px;
+        }
+
+        .div-comum{
+            width: 50px;
+            height: 50px;
+            display: inline-block;
         }
     </style>
 
@@ -50,6 +69,7 @@
         Carga Horária Curso 2 Perfil: {{perfil.cursos[1].cargaHoraria}}<br/>
     </div>
 
+    <br/><hr/><br/>
     <h2>Methods</h2>
     <br/><hr/><br/>
 
@@ -60,6 +80,7 @@
         Dividir: {{dividir()}}<br/>
     </div>
 
+    <br/><hr/><br/>
     <h2>V-Bind</h2>
     <br/><hr/><br/>
 
@@ -76,12 +97,69 @@
         <input type="text" :value="2 + 2" :class="false ? 'verde' : estilo"><br/>
     </div>
 
+    <br/><hr/><br/>
     <h2>V-On</h2>
     <br/><hr/><br/>
 
     <div id="on">
         <input type="text" @keyup="imprimirTexto('Enviando Parâmetro', 5)"><br/>
         <button type="button" @click="mensagemAlerta($event)">Botão</button><br/>
+    </div>
+
+    <br/><hr/><br/>
+    <h2>Hands-On</h2>
+    <br/><hr/><br/>
+
+    
+    <div id="hands">
+        <div class="borda div-principal" :class="cor">
+            Cor: {{cor}}<br/>
+            Posição X da DIV: {{xpos}}<br/>
+            Posição Y da DIV: {{ypos}}
+        </div>
+        <hr/>
+        <div @click="mudarCor('verde')" class="borda div-comum"></div>
+        <div class="borda div-comum" @mouseover="mudarCor('azul')" @mouseout="mudarCor('vermelho')"></div>
+        <div class="borda div-comum" @mousemove="coordenadas($event)"></div>
+    </div>
+
+    <h2>Implementando Modificadores</h2>
+    <br/><hr/><br/>
+
+    
+    <div id="mods">
+        <a href="https://google.com" target="_blank" @click.prevent="prevenirComportamentoPadrao($event)">Mensagem: {{msg}}</a><br/>
+        <button type="button" @click.once="executarUmaVez()">Cliques: {{cliques}}</button><br/>
+        <!-- @keyup.[[TECLA_1].[TECLA_2].(....).[TECLA_N]] dispara a função só se as teclas digitadas forem as especificadas -->
+        <input type="text" @keyup="capturarTeclas($event)"><br/> 
+        Teclas: {{teclas}} <br/>
+        <form @submit.prevent.once="prevenirUmaVez()">
+            <p>Formulário: {{formulario}}</p><br/>
+            <button type="submit">Enviar</button><br/>
+        </form>
+    </div>
+
+    <br/><hr/><br/>
+    <h2>Elementos HTML Pais e Filhos</h2>
+    <br/><hr/><br/>
+
+    
+    <div id="pai">
+        <input type="text" id="filho"><br/> 
+
+        <select id="opcoes">
+            <option value="1">Opção A</option>
+            <option value="2">Opção B</option>
+            <option value="3">Opção C</option>
+            <option value="4">Opção D</option>
+            <option value="5">Opção E</option>
+        </select><br/>
+
+        <p id="paragrafo" style="color:green;"><br/>
+
+        <div id="bloco">Conteúdo Interno da Div</div><br/>
+
+        <button @click="selecionarFilho()">Selecionar</button>
     </div>
 
     <script>
@@ -169,6 +247,69 @@
                 },
                 mensagemAlerta(e){
                     console.log(e);
+                }
+            }
+        });
+
+        // Hands-On
+        const vm5 = new Vue({
+            el: '#hands',
+            data: {
+                cor: '',
+                xpos: 0,
+                ypos: 0
+            },
+            methods: {
+                mudarCor(c){
+                    this.cor = c;
+                },
+                coordenadas(e){
+                    this.xpos = e.clientX;
+                    this.ypos = e.clientY;
+                }
+            }
+        });
+
+        // Implementando Modificadores
+        const vm6 = new Vue({
+            el: '#mods',
+            data: {
+                msg: '',
+                cliques: 0,
+                formulario: '',
+                teclas: ''
+            },
+            methods: {
+                prevenirComportamentoPadrao(e){
+                    this.msg = 'Comportamento padrão.';
+                },
+                executarUmaVez(){
+                    this.cliques++;
+                },
+                prevenirUmaVez(){
+                    this.formulario = 'Prevenindo comportamento padrão'
+                },
+                capturarTeclas(e){
+                    this.teclas += e.key;
+                }
+            }
+        });
+
+        // Elementos HTML Pais e Filhos
+        const vm7 = new Vue({
+            el: '#pai',
+            data: {
+                msg: '',
+                cliques: 0,
+                formulario: '',
+                teclas: ''
+            },
+            methods: {
+                selecionarFilho(){
+                    console.log(filho.value);
+                    console.log(opcoes.value);
+                    console.log(paragrafo.style.color);
+                    console.log(bloco.innerHTML);
                 }
             }
         });
