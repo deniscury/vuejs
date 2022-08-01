@@ -162,6 +162,228 @@
         <button @click="selecionarFilho()">Selecionar</button>
     </div>
 
+    <br/><hr/><br/>
+    <h2>V-If</h2>
+    <br/><hr/><br/>
+
+    <div id="if">
+        <!-- V-IF Simples -->
+        <button @click="exibirSaldo = !exibirSaldo">
+            <span v-if="!exibirSaldo">Exibir</span><span v-if="exibirSaldo">Ocultar</span> Saldo
+        </button> <!-- toggle -->
+        <p>Saldo: <span v-if="exibirSaldo">R$ {{saldo}}</span></p>
+
+        <!-- V-IF e V-ELSE -->
+        Idade: <input type="text" id="idadeIf" @blur="setIdade" />
+        <p v-if="idade < 18">Menor de Idade</p>
+        <p v-else>Maior de Idade</p>
+
+        <!-- V-IF, V-ELSE-IF e V-ELSE -->
+        Nota: <input type="text" id="notaIf" @blur="setNota"/>
+        <p v-if="nota == ''">Digite a nota do aluno</p>
+        <p v-else-if="nota <= 4">Aluno Reprovado</p>
+        <p v-else-if="nota > 4 && nota <= 6">Aluno de Recuperação</p>
+        <p v-else-if="nota > 6">Aluno Aprovado</p>
+        <p v-else>A nota informada é inválida</p>
+    </div>
+
+    <br/><hr/><br/>
+    <h2>V-Show</h2>
+    <br/><hr/><br/>
+
+    <div id="show">
+        <div style="float:left; height: 300px;">
+            <p @mouseover="exibirAjuda = true" @mouseout="exibirAjuda = false">Exemplo Tooltip</p>
+        </div>
+        <div v-show="exibirAjuda" style="float:left; height: 300px;">
+            <h3>Titulo Texto Ajuda</h3>
+            <p>Conteúdo Texto Ajuda</p>
+        </div>
+    </div>
+
+    <br/><hr/><br/>
+    <h2>V-HTML</h2>
+    <br/><hr/><br/>
+
+    <div id="html">
+        <div v-html="elementosHTML">Texto de Exemplo - V-HTML substitui o html do elemento.</div>
+    </div>
+
+    <br/><hr/><br/>
+    <h2>V-Text</h2>
+    <br/><hr/><br/>
+
+    <div id="text">
+        <div v-text="elementosHTML">Texto de Exemplo - V-TEXT substitui o text do elemento.</div>
+    </div>
+
+    <br/><hr/><br/>
+    <h2>V-Once</h2>
+    <br/><hr/><br/>
+
+    <div id="once">
+        <p v-once>Saldo Inicial: {{saldo}}</p>
+        <p>Saldo Atualizado: {{saldo}}</p>
+        <input type="text" id="valor">
+        <button @click="creditar">Creditar</button>
+        <button @click="debitar">Debitar</button>
+    </div>
+
+    <br/><hr/><br/>
+    <h2>V-For</h2>
+    <br/><hr/><br/>
+
+    <div id="for">
+
+        <br/><hr/><br/>
+        <h3 style="color:blue;">V-For - Array</h3>
+        <br/><hr/><br/>
+
+        <ul>
+            <li v-for="(curso, key) in cursos" v-text="key+' '+curso"></li>
+        </ul>
+
+        <br/><hr/><br/>
+        <h3 style="color:blue;">V-For - Objeto</h3>
+        <br/><hr/><br/>
+        
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titulo</th>
+                    <th>Descricao</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="({titulo, descricao}, key) in cursos_2">
+                    <td v-text="key"></td>
+                    <td v-text="titulo"></td>
+                    <td v-text="descricao"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/><hr/><br/>
+        <h3 style="color:blue;">V-For - Renderização HTML com o Atributo Key</h3>
+        <br/><hr/><br/>
+
+        <ul>
+            <li v-for="(publicacao, key) in publicacoes" style="border: solid 1px; margin-bottom: 10px;" :key="publicacao.id">
+                <div>
+                    {{ publicacao.publicacao }}
+                    <hr/>
+                    <input type="text">
+                </div>
+
+            </li>
+        </ul>
+        <button @click="misturarArray">Misturar Publicações</button>
+
+        <br/><hr/><br/>
+        <h3 style="color:blue;">V-For - Loop até determinado número</h3>
+        <br/><hr/><br/>
+
+        <ul>
+            <li v-for="n in 10" v-text="n"></li>
+        </ul>
+
+        <br/><hr/><br/>
+        <h3 style="color:blue;">V-For - Manipulando e Renderizandos os Objetos usados no loop</h3>
+        <br/><hr/><br/>
+
+        <ul>
+            <li v-for="comentario in comentarios" v-text="comentario.id+' - '+comentario.comentario"></li>
+        </ul>
+        <button @click="addElemento">Adicionar Comentário</button>
+        <button @click="delElemento">Excluir Comentário</button>
+        <button @click="edtElemento">Alterar Comentário</button>
+    </div>
+
+    <br/><hr/><br/>
+    <h2>Template</h2>
+    <br/><hr/><br/>
+
+    <div id="template">
+        <template v-if="saudacao">
+            <h1>Boas vindas</h1>
+            <p>Conteúdo da tag <strong>template</strong></p>
+        </template>
+
+        <template v-for="n in 10">
+            <p>9 * {{n}} = <strong v-text="n*9"></strong></p>
+        </template>
+    </div>
+
+    <br/><hr/><br/>
+    <h2>Computed</h2>
+    <br/><hr/><br/>
+
+    <div id="computed">
+        <h4>Adicionar Pacientes</h4>
+        <span>Nome: </span><input type="text" id="cptNome" /><br/>
+        <span>Idade: </span><input type="text" id="cptIdade" /><br/>
+        <span>Plano: </span><input type="text" id="cptPlano" /><br/>
+        <button @click="addPaciente">Adicionar Paciente</button>
+        <hr/>
+        <h4>Último Paciente Cadastrado</h4>
+        <hr/>
+        <p v-if="pacientes.length > 0" v-html="ultimoPaciente"></p>
+        <hr/>
+        <h4>Pacientes do Plano Ouro</h4>
+        <hr/>
+        <p v-for="paciente in pacientesOuro" v-text="paciente.nome"></p>
+        <hr/>
+        <h4>Pacientes Cadastrados</h4>
+        <hr/>
+        <p v-for="paciente in pacientes" v-text="paciente.nome"></p>
+    </div>
+
+    <br/><hr/><br/>
+    <h2>V-Model</h2>
+    <br/><hr/><br/>
+
+    <div id="model">
+        {{paciente}}<br/>
+        <input type="text" v-model="paciente">
+        <hr/>
+        <input type="radio" value="f" v-model="sexo">Feminino
+        <input type="radio" value="m" v-model="sexo">Masculino
+        <br/>
+        {{sexo}}
+        <hr/>
+        <select v-model="plano">
+            <option value="" disable>Selecione um plano</option>
+            <option value="1">Básico 1</option>
+            <option value="2">Básico 2</option>
+            <option value="3">Master</option>
+        </select>
+        <br/>
+        {{plano}}
+        <hr/>
+        <input type="checkbox" value="100" v-model="doencas">Asma
+        <input type="checkbox" value="101" v-model="doencas">Diabetes Tipo 1
+        <input type="checkbox" value="102" v-model="doencas">Rinite
+        <br/>
+        {{doencas}}
+        <hr/>
+        <textarea v-model="diagnostico"></textarea>
+        <br/>
+        {{diagnostico}}
+    </div>
+
+    <br/><hr/><br/>
+    <h2>Watch</h2>
+    <br/><hr/><br/>
+
+    <div id="watch">
+        <span>Paciente: </span><input type="text" v-model="paciente"/>
+        <hr/>
+        <ul>
+            <li v-for="p in lista" v-text="p.nome+' - '+p.idade"></li>
+        </ul>
+    </div>
+
     <script>
         // Data
         const vm = new Vue({
@@ -310,6 +532,246 @@
                     console.log(opcoes.value);
                     console.log(paragrafo.style.color);
                     console.log(bloco.innerHTML);
+                }
+            }
+        });
+
+        // V-If
+        const vm8 = new Vue({
+            el: '#if',
+            data: {
+                saldo: 4510.94,
+                exibirSaldo: true,
+                idade: 0,
+                nota: 0
+            },
+            methods: {
+                setIdade(){
+                    this.idade = idadeIf.value;
+                },
+                setNota(){
+                    this.nota = notaIf.value;
+                }
+            }
+        });
+
+        // V-Show
+        const vm9 = new Vue({
+            el: '#show',
+            data: {
+                exibirAjuda: false
+            },
+            methods: {
+                setExibirAjuda(){
+                    this.exibirAjuda= !this.exibirAjuda;
+                }
+            }
+        });
+
+        // V-HTML
+        const vm10 = new Vue({
+            el: '#html',
+            data: {
+                elementosHTML: '<p><b>Site</b></p><a href="https://google.com">Google</a>'
+            },
+            methods: {
+            }
+        });
+
+        // V-Text
+        const vm11 = new Vue({
+            el: '#text',
+            data: {
+                elementosHTML: '<p><b>Site</b></p><a href="https://google.com">Google</a>'
+            },
+            methods: {
+            }
+        });
+
+        // V-Once
+        const vm12 = new Vue({
+            el: '#once',
+            data: {
+                saldo: 1100
+            },
+            methods: {
+                creditar(){
+                    this.saldo += parseFloat(valor.value);
+                },
+                debitar(){
+                    this.saldo -= parseFloat(valor.value);
+                }
+            }
+        });
+
+        // V-For
+        const vm13 = new Vue({
+            el: '#for',
+            data: {
+                cursos: ['Laravel', 'Zend Framework', 'SQL Server', 'Angular.js', 'Vue.js', 'jQuery'],
+                cursos_2: {
+                    1000:{
+                        titulo: 'Laravel',
+                        descricao: 'Domine o framework PHP mais poderoso do mundo.'
+                    },
+                    1001:{
+                        titulo: 'Banco de Dados',
+                        descricao: 'Aprenda os melhores bancos do mercado.'
+                    }
+                },
+                publicacoes:[
+                    {
+                        id: 1,
+                        publicacao: 'Publicação 1'
+                    },
+                    {
+                        id: 2,
+                        publicacao: 'Publicação 2'
+                    },
+                    {
+                        id: 3,
+                        publicacao: 'Publicação 3'
+                    },
+                ],
+                comentarios:[
+                    {
+                        id: 1,
+                        comentario: 'Comentário 1'
+                    },
+                    {
+                        id: 2,
+                        comentario: 'Comentário 2'
+                    },
+                    {
+                        id: 3,
+                        comentario: 'Comentário 3'
+                    },
+                    {
+                        id: 4,
+                        comentario: 'Comentário 4'
+                    },
+                    {
+                        id: 5,
+                        comentario: 'Comentário 5'
+                    },
+                    {
+                        id: 6,
+                        comentario: 'Comentário 6'
+                    },
+                ]
+            },
+            methods: {
+                misturarArray(){
+                    let misturado = [];
+
+                    misturado[0] = this.publicacoes[2];
+                    misturado[1] = this.publicacoes[0];
+                    misturado[2] = this.publicacoes[1];
+
+                    this.publicacoes = misturado;
+                },
+                addElemento(){
+                    this.comentarios.push({id: 7, comentario: 'Comentário 7'});
+                },
+                delElemento(){
+                    this.comentarios.pop();
+                },
+                edtElemento(){
+                    this.$set(this.comentarios, 1, {id: 2, comentario: 'Comentário Atualizado'});
+                }
+            }
+        });
+
+        // Template
+        const vm14 = new Vue({
+            el: '#template',
+            data: {
+                saudacao: true
+            },
+            methods: {
+            }
+        });
+
+        // Computed
+        const vm15 = new Vue({
+            el: '#computed',
+            data: {
+                pacientes: []
+            },
+            methods: {
+                addPaciente(){
+                    this.pacientes.push(
+                        {
+                            nome: cptNome.value,
+                            idade: cptIdade.value,
+                            plano: cptPlano.value
+                        }
+                    );
+                }
+            },
+            computed:{
+                ultimoPaciente(){
+                    let key = this.pacientes.length-1;
+                    let txt = '';
+
+                    txt += 'Paciente: ' + this.pacientes[key].nome+', '+
+                            'Idade: ' + this.pacientes[key].idade+', '+
+                            'Plano: ' + this.pacientes[key].plano+'<br/>';
+
+                    return txt;
+                },
+                pacientesOuro(){
+                    return this.pacientes.filter(item => item.plano == 'Ouro');
+                }
+            }
+        });
+
+        // V-Model
+        const vm16 = new Vue({
+            el: '#model',
+            data: {
+                paciente: 'João da Silva',
+                sexo: '',
+                plano: '',
+                doencas: [],
+                diagnostico: ''
+            },
+            methods: {
+            },
+            computed:{
+            }
+        });
+
+        // Watch
+        const vm17 = new Vue({
+            el: '#watch',
+            data: {
+                paciente: '',
+                pacientes:[
+                    {
+                        nome: 'Denis Cury',
+                        idade: '27'
+                    },
+                    {
+                        nome: 'Pedro Clivatti',
+                        idade: '26'
+                    },
+                    {
+                        nome: 'Paulo Clivatti',
+                        idade: '25'
+                    },
+                    {
+                        nome: 'Laura Maria',
+                        idade: '24'
+                    },
+                ],
+                lista: []
+            },
+            methods: {},
+            computed:{},
+            watch:{
+                paciente(valor_novo){
+                    this.lista = this.pacientes.filter(p => p.nome.match(valor_novo));
                 }
             }
         });
